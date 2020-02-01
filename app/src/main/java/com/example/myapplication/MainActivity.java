@@ -33,14 +33,12 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity {
     private int AUDIO_PERMISSION_CODE = 1;
     private MediaRecorder recorder = null;
+    private volatile boolean threadStop = false;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        MediaPlayer player = MediaPlayer.create(this, Settings.System.DEFAULT_ALARM_ALERT_URI);
-//        player.setLooping(true);
-//        player.start();
         ImageButton buttonrequest = findViewById(R.id.MicButton);
         Chronometer timer = findViewById(R.id.timer);
         timer.setVisibility(View.GONE);
@@ -87,11 +85,15 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("got interrupted!");
                 }
                 System.out.println("Hello");
+                if(threadStop){
+                    return;
+                }
             }
         }
     };
 
     private void startMicrophone() {
+        threadStop = false;
         test t = new test();
         new Thread(t).start();
         recorder = new MediaRecorder();
@@ -111,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void stopRecording(){
         Log.d("myTag", "Stop");
+        threadStop = true;
         recorder.stop();
         recorder.release();
         recorder = null;
