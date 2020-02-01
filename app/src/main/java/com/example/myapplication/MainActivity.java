@@ -7,6 +7,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.content.DialogInterface;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import android.app.AlertDialog;
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ImageButton buttonrequest = findViewById(R.id.MicButton);
+        Chronometer timer = findViewById(R.id.timer);
+        timer.setVisibility(View.GONE);
         buttonrequest.setOnClickListener(new View.OnClickListener() {
             boolean recording = false;
             @Override
@@ -39,14 +42,20 @@ public class MainActivity extends AppCompatActivity {
 //                if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.RECORD_AUDIO)) {
 //                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, AUDIO_PERMISSION_CODE);
 //                }
+                Chronometer timer = findViewById(R.id.timer);
                 if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, 0);
                 }
                 else {
                     if(recording){
+                        timer.setVisibility(View.GONE);
+                        timer.stop();
+                        timer.setBase(0);
                         stopRecording();
                     }
                     else {
+                        timer.setVisibility(View.VISIBLE);
+                        timer.start();
                         startMicrophone();
                     }
 
