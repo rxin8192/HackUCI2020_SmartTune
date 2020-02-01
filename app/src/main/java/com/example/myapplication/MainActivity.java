@@ -3,37 +3,58 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
-import android.content.DialogInterface;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
-import android.app.AlertDialog;
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.view.View;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import android.os.Bundle;
-import android.media.MediaRecorder;
-
-import java.io.IOException;
 
 
 public class MainActivity extends AppCompatActivity {
     private int AUDIO_PERMISSION_CODE = 1;
-    private MediaRecorder recorder = null;
+
+    private SoundMeter sMeter;
+    private boolean recording;  // True if the the microphone is recording
+
+    // Thread loops
+    private Runnable micListener = new Runnable() {
+        @Override
+        public void run() {
+            Log.d("tag", "Message");
+            startRecording();
+        }
+    };
+
+    private Runnable pollThread = new Runnable() {
+        @Override
+        public void run() {
+            while (recording) {
+                double recordedVolume = sMeter.getAmplitude();
+
+                System.out.println("Recorded Volume: " + recordedVolume);
+
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ImageButton buttonrequest = findViewById(R.id.MicButton);
+        recording = false;
+
+
         buttonrequest.setOnClickListener(new View.OnClickListener() {
-            boolean recording = false;
             @Override
             public void onClick(View v) {
 //                if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.RECORD_AUDIO)) {
@@ -53,29 +74,25 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     private void startMicrophone() {
-        recorder = new MediaRecorder();
-        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        recorder.setOutputFile("/dev/null");
-        try {
-            recorder.prepare();
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        recorder.start();
+        recording = true;
+        (new Thread(micListener)).start();
     }
 
-    private void stopRecording(){
-        recorder.stop();
-        recorder.release();
-        recorder = null;
+    private void startRecording() {
+        sMeter = new SoundMeter();
+        sMeter.start();
+
+        // Handle polling
+        (new Thread(pollThread)).start();
+    }
+
+
+    private void stopRecording() {
+        recording = false;
+        sMeter.stop();
     }
 
 
