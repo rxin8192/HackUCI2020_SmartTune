@@ -2,8 +2,10 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.view.View;
 import android.content.DialogInterface;
 import android.widget.Button;
@@ -22,15 +24,20 @@ import android.os.Bundle;
 import android.media.MediaRecorder;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 
 public class MainActivity extends AppCompatActivity {
     private int AUDIO_PERMISSION_CODE = 1;
     private MediaRecorder recorder = null;
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        MediaPlayer player = MediaPlayer.create(this, Settings.System.DEFAULT_ALARM_ALERT_URI);
+//        player.setLooping(true);
+//        player.start();
         ImageButton buttonrequest = findViewById(R.id.MicButton);
         buttonrequest.setOnClickListener(new View.OnClickListener() {
             boolean recording = false;
@@ -53,7 +60,24 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    class test implements Runnable{
+        @Override
+        public void run(){
+            while(true) {
+                // listen here
+                try {
+                    Thread.sleep(1500);
+                } catch(InterruptedException e) {
+                    System.out.println("got interrupted!");
+                }
+                System.out.println("Hello");
+            }
+        }
+    };
+
     private void startMicrophone() {
+        test t = new test();
+        new Thread(t).start();
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
