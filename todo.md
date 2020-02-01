@@ -2,7 +2,7 @@
 
  * make a listener that takes mic input and creates a valid decibel value
 
- * IMPLEMENTATION IDEA: two global variables: default_volume, curr_increment. To calculate current volume bar, add sound_original to sound_increment. Default volume will change whenever the volume button is pressed. curr_increment will change based off of mic parsing. 
+ * IMPLEMENTATION IDEA: two global variables: sound_origina, sound_increment. To calculate current volume bar, add sound_original to sound_increment. sound_original will change whenever the volume button is pressed. sound_increment will change based off of mic parsing.
 
  * adjust the volume according to decibel changes
 
