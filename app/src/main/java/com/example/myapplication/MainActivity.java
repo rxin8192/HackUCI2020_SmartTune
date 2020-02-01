@@ -24,12 +24,13 @@ import android.os.Bundle;
 import android.media.MediaRecorder;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 
 
 public class MainActivity extends AppCompatActivity {
     private int AUDIO_PERMISSION_CODE = 1;
-
     private SoundMeter sMeter;
     private boolean recording;  // True if the the microphone is recording
 
@@ -45,13 +46,30 @@ public class MainActivity extends AppCompatActivity {
     private Runnable pollThread = new Runnable() {
         @Override
         public void run() {
+            double last_volume = 1000;
+            Queue<Double> volumes = new LinkedList<>();
+            double total_volume = 0;
+            for(int i = 0; i < 5; i++)
+            {
+                volumes.add(sMeter.getAmplitude());
+                total_volume += volumes.element();
+            }
             while (recording) {
+                long startTime = System.currentTimeMillis();
                 double recordedVolume = sMeter.getAmplitude();
-
+                if(recordedVolume > 1.5*last_volume)
+                    recordedVolume = 1.5*last_volume;
+                else if(recordedVolume < 20)
+                    recordedVolume = 20;
+                last_volume = recordedVolume;
+                total_volume -= volumes.remove();
+                volumes.add(last_volume);
+                total_volume += last_volume;
                 System.out.println("Recorded Volume: " + recordedVolume);
+                System.out.println("Average last 5: " + total_volume/5);
 
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(1000-(int)(startTime-System.currentTimeMillis()));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
