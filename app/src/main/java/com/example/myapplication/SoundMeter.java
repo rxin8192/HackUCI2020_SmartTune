@@ -44,8 +44,7 @@ public class SoundMeter {
         } else {
             int amp = recorder.getMaxAmplitude();
             System.out.println(amp);
-            return amp/2700.0;
+            return amp/200.0;
         }
     }
-
 }

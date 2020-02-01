@@ -101,23 +101,23 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    class test implements Runnable{
-        @Override
-        public void run(){
-            while(true) {
-                // listen here
-                try {
-                    Thread.sleep(1500);
-                } catch(InterruptedException e) {
-                    System.out.println("got interrupted!");
-                }
-                System.out.println("Hello");
-                if(threadStop){
-                    return;
-                }
-            }
-        }
-    };
+//    class test implements Runnable{
+//        @Override
+//        public void run(){
+//            while(true) {
+//                // listen here
+//                try {
+//                    Thread.sleep(1500);
+//                } catch(InterruptedException e) {
+//                    System.out.println("got interrupted!");
+//                }
+//                System.out.println("Hello");
+//                if(threadStop){
+//                    return;
+//                }
+//            }
+//        }
+//    };
 
     private void startMicrophone() {
         recording = true;
@@ -132,9 +132,9 @@ public class MainActivity extends AppCompatActivity {
         (new Thread(pollThread)).start();
 
 
-        threadStop = false;
-        test t = new test();
-        new Thread(t).start();
+//        threadStop = false;
+//        test t = new test();
+//        new Thread(t).start();
     }
 
 
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         recording = false;
         sMeter.stop();
         Log.d("myTag", "Stop");
-        threadStop = true;
+//        threadStop = true;
     }
 
 
