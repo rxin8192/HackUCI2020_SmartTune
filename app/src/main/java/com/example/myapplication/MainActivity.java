@@ -3,7 +3,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.content.DialogInterface;
 import android.widget.Button;
@@ -48,15 +50,17 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else {
                     if(recording){
-                        timer.setVisibility(View.GONE);
                         timer.stop();
-                        timer.setBase(0);
+                        timer.setVisibility(View.GONE);
                         stopRecording();
+                        recording = !recording;
                     }
                     else {
+                        timer.setBase(SystemClock.elapsedRealtime());
                         timer.setVisibility(View.VISIBLE);
                         timer.start();
                         startMicrophone();
+                        recording = !recording;
                     }
 
                 }
@@ -66,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startMicrophone() {
+        Log.d("tag", "Start");
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -82,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void stopRecording(){
+        Log.d("myTag", "Stop");
         recorder.stop();
         recorder.release();
         recorder = null;
