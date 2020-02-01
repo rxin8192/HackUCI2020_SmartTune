@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void increaseVolume(View view){
         AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-//        audio.adjustStreamVolume(AudioManager.STREAM_MUSIC);
+        audio.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
     }
 
 }

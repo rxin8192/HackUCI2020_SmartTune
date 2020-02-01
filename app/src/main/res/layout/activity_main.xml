@@ -45,6 +45,7 @@
         android:layout_marginEnd="146dp"
         android:layout_marginRight="146dp"
         android:layout_marginBottom="156dp"
+        android:onClick="increaseVolume"
         android:text="Increase Volume"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
