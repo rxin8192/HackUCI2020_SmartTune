@@ -22,6 +22,8 @@ import androidx.core.app.ActivityCompat;
 import android.os.AsyncTask;
 import android.media.MediaRecorder;
 import android.os.Handler;
+
+import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Timer;
@@ -88,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("Recorded Volume: " + recordedVolume);
                 System.out.println("Average last " + SAMPLE_SIZE + ": " + volumes.getMedian());
                 System.out.println("Current Volume: " + (default_vol+curr_increment)  );
+                ambient_noise = volumes.getMedian();
 
 
                 try {
@@ -263,7 +266,8 @@ public class MainActivity extends AppCompatActivity {
             //Background operation in a separate thread
             //Write here your code to run in the background thread
             //calculate here whatever you like
-            ambientString = "Ambient Noise: " + Double.toString(ambient_noise);
+            DecimalFormat df = new DecimalFormat("0.00");
+            ambientString = "Ambient Noise: " + df.format(ambient_noise);
             volumeString =  "Current Volume: " + Integer.toString(default_vol+curr_increment);
 
             return null;

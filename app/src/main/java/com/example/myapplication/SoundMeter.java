@@ -31,6 +31,7 @@ public class SoundMeter {
     }
 
     public void stop() {
+        System.out.println("LMAO");
         if (recorder != null) {
             recorder.stop();
             recorder.release();
@@ -43,8 +44,11 @@ public class SoundMeter {
             return 0;
         } else {
             int amp = recorder.getMaxAmplitude();
+            if(amp == 0){
+                amp = 1;
+            }
             System.out.println(amp);
-            return amp/200.0;
+            return amp/175.0;
         }
     }
 }
