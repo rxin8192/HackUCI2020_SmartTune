@@ -50,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        recording = false;
+        sMeter.stop();
+        System.out.println("MainThreadDestroyed");
         super.onDestroy();
     }
 

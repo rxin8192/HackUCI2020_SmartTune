@@ -36,6 +36,7 @@ public class MyService extends Service{
 
     @Override
     public void onDestroy() {
+        System.out.println("MyServiceDestroyed");
         super.onDestroy();
     }
 
