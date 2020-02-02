@@ -28,16 +28,15 @@
         android:layout_marginLeft="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="432dp"
+        android:layout_marginBottom="468dp"
+        app:absoluteMaxValue="100"
+        app:absoluteMinValue="0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_goneMarginLeft="5dp"
-        app:singleThumb="true"
-        app:absoluteMinValue="0"
-        app:absoluteMaxValue="100"
-        />
+        app:singleThumb="true" />
 
     <TextView
         android:id="@+id/textView"
@@ -45,7 +44,7 @@
         android:layout_height="116dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="16dp"
         android:text="About: \nVolume sense is a smart volume control that adjusts your music volume based on how loud your enviroment is. The app works in the background and will only stop adjustments if the app is closed or the stop recording button is hit"
         android:textColor="#008577"
         app:layout_constraintBottom_toTopOf="@+id/CloseButton"
@@ -55,48 +54,96 @@
         android:id="@+id/textView3"
         android:layout_width="251dp"
         android:layout_height="31dp"
-        android:layout_marginBottom="15dp"
         android:gravity="center_horizontal"
-        android:text="Sound Change Calibration"
+        android:text="Sensitivity"
         android:textColor="#008577"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/seekBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+
+    <!-- Min Max Volume -->
+
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="358dp"
-        android:layout_height="15dp"
+        android:layout_width="273dp"
+        android:layout_height="18dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="5dp"
         android:layout_marginEnd="12dp"
         android:layout_marginRight="12dp"
-        android:text="Low: Volume will not adjust much High: Volume adjusts by a lot "
+        android:text="Response time to changes in surrounding noise levels"
         android:textColor="#008577"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.84"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
-
-    <!-- Min Max Volume -->
     <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
         android:id="@+id/VolumeRange"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="60dp"
 
 
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/textView4"
         app:layout_constraintTop_toBottomOf="@id/textView4" />
 
+    <TextView
+        android:id="@+id/textView2"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Min/Max Volume"
+        android:textColor="#008577"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/VolumeRange"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:text="Set the Min/Max volume of the auto-adjuster"
+        android:textColor="#008577"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/VolumeRange" />
+
+    <TextView
+        android:id="@+id/InverseDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:text="Normalizes speaker volume by inversing the auto-adjuster"
+        android:textColor="#008577"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Inverse" />
+
+    <Switch
+        android:id="@+id/Inverse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Speaker Mode"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        tools:layout_editor_absoluteX="143dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

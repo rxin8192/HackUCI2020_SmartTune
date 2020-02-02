@@ -182,12 +182,16 @@ public class MainActivity extends AppCompatActivity {
                         timer.stop();
                         timer.setVisibility(View.GONE);
                         stopRecording();
+                        Toast.makeText(getApplicationContext(), "Stopped Recording", Toast.LENGTH_SHORT).show();
+
                     }
                     else {
                         timer.setBase(SystemClock.elapsedRealtime());
                         timer.setVisibility(View.VISIBLE);
                         timer.start();
                         startMicrophone();
+                        Toast.makeText(getApplicationContext(), "Started Recording", Toast.LENGTH_SHORT).show();
+
                     }
 
                 }

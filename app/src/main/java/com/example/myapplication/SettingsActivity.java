@@ -2,8 +2,11 @@ package com.example.myapplication;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -61,6 +64,21 @@ public class SettingsActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Volume Range: " + minValue + "-" + maxValue, Toast.LENGTH_SHORT).show();
             }
         });
+
+        Switch inverse = findViewById(R.id.Inverse);
+        inverse.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    SharedPreferences sp = getSharedPreferences(SHARED_PREFs, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putBoolean("Inverse", isChecked);
+                    editor.apply();
+                }
+            }
+        });
+
+        }
 
     }
 
