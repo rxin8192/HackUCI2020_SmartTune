@@ -39,7 +39,11 @@ public class HelpMenu extends AppCompatActivity {
         sensitivitySet.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                // Handle File IO
+                // Handle File IO file = "settings.txt"
+                String directory = /Users/jason/AndroidStudioProjects/HackUCI2020_VolumeSense
+                String fileName = "sample.txt";
+                String absolutePath = directory + File.separator + fileName;
+
             }
 
             @Override
