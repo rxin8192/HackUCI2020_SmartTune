@@ -26,9 +26,9 @@ public class MyService extends Service{
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,notificationIntent,0);
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Volume Sense")
-                .setSmallIcon(R.drawable.ic_android)
+                .setContentTitle("Smart Tune")
                 .setContentIntent(pendingIntent)
+                .setSmallIcon(R.drawable.ic_music_note_black_24dp)
                 .build();
         startForeground(1,notification);
         return START_NOT_STICKY;
