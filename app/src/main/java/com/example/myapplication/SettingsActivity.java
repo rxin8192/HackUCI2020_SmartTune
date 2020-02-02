@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SettingsActivity extends AppCompatActivity {
     private final static String SHARED_PREFs = "sharedPrefs";
-    private final static int DEFAULT_SENSITIVITY = 50, DEFAULT_BASE=0, DEFAULT_MAX=100;
+    private final static int DEFAULT_SENSITIVITY = 50, DEFAULT_BASE = 0, DEFAULT_MAX = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
                 SharedPreferences sp = getSharedPreferences(SHARED_PREFs, MODE_PRIVATE);
                 SharedPreferences.Editor editor = sp.edit();
                 int newSensitivity = 100 - maxValue;
-                editor.putInt("Calibration",  newSensitivity);
+                editor.putInt("Calibration", newSensitivity);
                 editor.apply();
 
                 Toast.makeText(getApplicationContext(), "Sensitivity set to " + newSensitivity, Toast.LENGTH_SHORT).show();
@@ -69,7 +69,7 @@ public class SettingsActivity extends AppCompatActivity {
         inverse.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
+                if (isChecked) {
                     SharedPreferences sp = getSharedPreferences(SHARED_PREFs, MODE_PRIVATE);
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putBoolean("Inverse", isChecked);
@@ -78,10 +78,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        }
-
     }
-
-
 
 }
