@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private double sensitivity = 1.0;
     private double initial_noise;
     private boolean volume_adjusted = false;
-
-
+    private int vol_before = 0;
+    private int inc_before = 0;
     @Override
     protected void onDestroy() {
         recording = false;
@@ -240,8 +240,19 @@ public class MainActivity extends AppCompatActivity {
         //Amount each of increase per each change. And Range.
         int diff = (int)((median - initial_noise));
         curr_increment = (diff/20);
+        if(inc_before != curr_increment)
+        {
+            audio.setStreamVolume(AudioManager.STREAM_MUSIC, default_vol+curr_increment > 0? default_vol+curr_increment : 1, 0);
+        }
+        else if((vol_before != audio.getStreamVolume(AudioManager.STREAM_MUSIC)))
+        {
+            Thread serviceAdjust = new Thread(lockVolume);
+            serviceAdjust.run();
+        }
+        System.out.println("got to boolean in mainactivity: " + vol_before + "  " + audio.getStreamVolume(AudioManager.STREAM_MUSIC));
+        inc_before = curr_increment;
+        vol_before = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
 
-        audio.setStreamVolume(AudioManager.STREAM_MUSIC, default_vol+curr_increment > 0 ? default_vol+curr_increment : 1, 0);
     }
 
     private void startMicrophone() {
