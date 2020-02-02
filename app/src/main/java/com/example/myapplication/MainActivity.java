@@ -252,9 +252,11 @@ public class MainActivity extends AppCompatActivity {
         int diff = (int)((median - initial_noise));
         int inc_by = (diff/12);
 
-        if(speakerMode){
-            inc_by = -Math.abs(inc_by);
-        }
+//        if(speakerMode){
+//            inc_by = -Math.abs(inc_by);
+//        }
+        if (speakerMode)
+            inc_by = 3*Math.abs(inc_by);
 
         // Handle min max range
         int newVolume = default_vol+inc_by > 0 ? default_vol+inc_by : 1;
@@ -262,6 +264,12 @@ public class MainActivity extends AppCompatActivity {
         double weightedVolume = sigmoid(minVolume, this.maxVolume, ((double) newVolume)/maxDeviceVolume);
         int calculated_volume = (int) (Math.round(weightedVolume*maxDeviceVolume));
         curr_increment = calculated_volume-default_vol;
+
+        System.out.println(default_vol );
+        System.out.println("newVolume: " + newVolume);
+        System.out.println("maxDeviceVolume: " + maxDeviceVolume);
+        System.out.println("weightedVolume: " + weightedVolume);
+        System.out.println("calculated_volume: " + calculated_volume);
 
         if(inc_before != curr_increment)
         {
