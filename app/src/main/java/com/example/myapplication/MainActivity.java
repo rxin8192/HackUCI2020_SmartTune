@@ -89,13 +89,21 @@ public class MainActivity extends AppCompatActivity {
             while (recording) {
                 sensitivity = sharedPreferences.getInt("Calibration", 50);
 
+
                 long startTime = System.currentTimeMillis();
                 double recordedVolume = sMeter.getAmplitude(); //GetAmplitude returns a range from ~ 20~80
                 //This is sensitivity - eliminates outlierss. Inertia. Low Sens = high Inertia, High = low.
-                if(recordedVolume > (((sensitivity*1.3)/100)+1)*last_volume) //How much bigger the next data point is from the last one. 1.3 - 2.3
-                    recordedVolume = (((sensitivity*1.3)/100)+1)*last_volume; //Outlier Avoider.
 
-                else if(recordedVolume < 5)
+                if(sharedPreferences.getBoolean("Inverse", false)){
+                    sensitivity = -Math.abs(sensitivity);
+                }
+                else{
+                    sensitivity = Math.abs(sensitivity);
+                    if(recordedVolume > (((sensitivity*1.3)/100)+1)*last_volume) //How much bigger the next data point is from the last one. 1.3 - 2.3
+                        recordedVolume = (((sensitivity*1.3)/100)+1)*last_volume; //Outlier Avoider.
+                }
+
+                if(recordedVolume < 5)
                     recordedVolume = 5;
                 last_volume = recordedVolume;
                 volumes.poppush(last_volume);
