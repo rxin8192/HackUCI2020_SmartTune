@@ -45,7 +45,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="16dp"
-        android:text="About: \nVolume sense is a smart volume control that adjusts your music volume based on how loud your enviroment is. The app works in the background and will only stop adjustments if the app is closed or the stop recording button is hit"
+        android:text="About: \Smart Tune is a smart volume control that adjusts your music volume based on how loud your enviroment is. The app works in the background and will stop adjustments if the app is closed or the stop recording button is hit."
         android:textColor="#008577"
         app:layout_constraintBottom_toTopOf="@+id/CloseButton"
         app:layout_constraintStart_toStartOf="parent" />
@@ -85,9 +85,13 @@
         android:id="@+id/VolumeRange"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+
+
+        android:layout_marginLeft="7dp"
         android:layout_marginTop="60dp"
-
-
+        android:layout_marginEnd="7dp"
+        android:layout_marginRight="7dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/textView4"
         app:layout_constraintTop_toBottomOf="@id/textView4" />
@@ -140,10 +144,15 @@
         android:id="@+id/Inverse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="143dp"
+        android:layout_marginLeft="143dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="138dp"
+        android:layout_marginRight="138dp"
         android:text="Speaker Mode"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
-        tools:layout_editor_absoluteX="143dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
