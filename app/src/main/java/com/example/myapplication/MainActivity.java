@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     private double sensitivity = 1.0;
     private double initial_noise;
     private boolean volume_adjusted = false;
-    private int Calibration;
 
 
     @Override
@@ -85,9 +84,11 @@ public class MainActivity extends AppCompatActivity {
             // Event Loop
             while (recording) {
                 long startTime = System.currentTimeMillis();
-                double recordedVolume = sMeter.getAmplitude();
-                if(recordedVolume > 1.5*last_volume)
-                    recordedVolume = 1.5*last_volume;
+                double recordedVolume = sMeter.getAmplitude(); //GetAmplitude returns a range from ~ 20~80
+                //This is sensitivity - eliminates outlierss. Inertia. Low Sens = high Inertia, High = low.
+                if(recordedVolume > (((sensitivity*1.3)/100)+1)*last_volume) //How much bigger the next data point is from the last one. 1.3 - 2.3
+                    recordedVolume = (((sensitivity*1.3)/100)+1)*last_volume; //Outlier Avoider.
+
                 else if(recordedVolume < 5)
                     recordedVolume = 5;
                 last_volume = recordedVolume;
@@ -121,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Retrieves the calibration value from the settings.
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFs,MODE_PRIVATE);
-        Calibration = sharedPreferences.getInt("Calibration", 50);
+        sensitivity = sharedPreferences.getInt("Calibration", 50);
 
         //ambient noise and current volume
         av = (TextView)findViewById(R.id.currentNoise);
@@ -217,8 +218,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setVolume(double median){
-        int diff = (int)(sensitivity*(median - initial_noise));
-        curr_increment = (diff/15);
+        //sensitivity 0-100. 0.25 - 1.75. sense*1.5/100
+
+        //Amount each of increase per each change. And Range.
+        int diff = (int)((median - initial_noise));
+        curr_increment = (diff/20);
+
         audio.setStreamVolume(AudioManager.STREAM_MUSIC, default_vol+curr_increment > 0 ? default_vol+curr_increment : 1, 0);
     }
 
