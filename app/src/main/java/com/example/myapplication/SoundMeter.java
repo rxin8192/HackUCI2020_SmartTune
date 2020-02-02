@@ -47,7 +47,7 @@ public class SoundMeter {
                 amp = 1;
             }
             System.out.println(amp);
-            return amp/175.0;
+            return amp/50.0;
         }
     }
 }
