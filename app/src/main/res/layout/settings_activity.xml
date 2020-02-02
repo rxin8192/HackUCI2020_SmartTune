@@ -10,14 +10,14 @@
         android:id="@+id/sensitivityHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:layout_marginBottom="5dp"
         android:text="High"
-        android:textColor="#000000"
+        android:textColor="#008577"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Header" />
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/CloseButton"
@@ -27,7 +27,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        app:backgroundTint="#0F2DDA"
+        app:backgroundTint="#008577"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
@@ -38,40 +38,28 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/CloseButton"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="440dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Header"
-        app:layout_constraintVertical_bias="0.141" />
-
-    <TextView
-        android:id="@+id/Header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text=" Help / Settings"
-        android:textColor="#000000"
-        android:textSize="36sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.14"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/SensitivityHeader1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="5dp"
         android:text="Low"
-        android:textColor="#000000"
+        android:textColor="#008577"
         android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintEnd_toStartOf="@+id/seekBar"
-        app:layout_constraintHorizontal_bias="0.024"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Header" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView"
@@ -79,9 +67,9 @@
         android:layout_height="116dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="32dp"
         android:text="About: \nVolume sense is a smart volume control that adjusts your music volume based on how loud your enviroment is. The app works in the background and will only stop adjustments if the app is closed or the stop recording button is hit"
-        android:textColor="#000000"
+        android:textColor="#008577"
         app:layout_constraintBottom_toTopOf="@+id/CloseButton"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -89,21 +77,18 @@
         android:id="@+id/textView3"
         android:layout_width="251dp"
         android:layout_height="31dp"
-        android:layout_marginStart="53dp"
-        android:layout_marginLeft="53dp"
-        android:layout_marginTop="45dp"
+        android:layout_marginStart="57dp"
+        android:layout_marginLeft="57dp"
         android:layout_marginEnd="57dp"
         android:layout_marginRight="57dp"
         android:layout_marginBottom="15dp"
         android:text="Sound Change Calibration"
-        android:textColor="#000000"
+        android:textColor="#008577"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintEnd_toStartOf="@+id/sensitivityHeader"
-        app:layout_constraintHorizontal_bias="0.362"
-        app:layout_constraintStart_toEndOf="@+id/SensitivityHeader1"
-        app:layout_constraintTop_toBottomOf="@+id/Header"
-        app:layout_constraintVertical_bias="0.7" />
+        app:layout_constraintHorizontal_bias="0.472"
+        app:layout_constraintStart_toEndOf="@+id/SensitivityHeader1" />
 
     <TextView
         android:id="@+id/textView4"
@@ -111,13 +96,14 @@
         android:layout_height="15dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="12dp"
         android:layout_marginRight="12dp"
         android:text="Low: Volume will not adjust much High: Volume adjusts by a lot "
+        android:textColor="#008577"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.28"
+        app:layout_constraintHorizontal_bias="0.84"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
