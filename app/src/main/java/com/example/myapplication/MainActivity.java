@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(inc_before != curr_increment)
         {
-            audio.setStreamVolume(AudioManager.STREAM_MUSIC, calculated_volume > 0? default_vol+curr_increment : 1, 0);
+            audio.setStreamVolume(AudioManager.STREAM_MUSIC, calculated_volume > 0? calculated_volume : 1, 0);
         }
         else if((vol_before != audio.getStreamVolume(AudioManager.STREAM_MUSIC)))
         {
