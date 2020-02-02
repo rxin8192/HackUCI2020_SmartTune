@@ -59,8 +59,16 @@ public class MainActivity extends AppCompatActivity {
             ArrayQueue volumes = new ArrayQueue(SAMPLE_SIZE);
             for(int i = 0; i < SAMPLE_SIZE; i++) {
                 last_volume = sMeter.getAmplitude();
+                try {
+                    Thread.sleep(300);
+                }
+                catch (InterruptedException e){
+                    e.printStackTrace();
+                }
                 volumes.enqueue(last_volume);
             }
+            initial_noise = volumes.getMedian();
+
 
             // Event Loop
             while (recording) {
@@ -69,15 +77,17 @@ public class MainActivity extends AppCompatActivity {
 
                 if(recordedVolume > 1.5*last_volume)
                     recordedVolume = 1.5*last_volume;
-                else if(recordedVolume < 10)
-                    recordedVolume = 10;
+                else if(recordedVolume < 5)
+                    recordedVolume = 5;
                 last_volume = recordedVolume;
                 volumes.poppush(last_volume);
+                setVolume(volumes.getMedian());
                 System.out.println("Recorded Volume: " + recordedVolume);
                 System.out.println("Average last " + SAMPLE_SIZE + ": " + volumes.getMedian());
+                System.out.println("Current Volume: " + (default_vol+curr_increment)  );
 
                 try {
-                    Thread.sleep(1000-(int)(startTime-System.currentTimeMillis()));
+                    Thread.sleep(500-(int)(startTime-System.currentTimeMillis()));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -158,7 +168,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setVolume(double median){
-
+        int diff = (int)(sensitivity*(median - initial_noise));
+        curr_increment = (diff/15);
+        audio.setStreamVolume(AudioManager.STREAM_MUSIC, default_vol+curr_increment > 0 ? default_vol+curr_increment : 1, 0);
     }
 
     private void startMicrophone() {
