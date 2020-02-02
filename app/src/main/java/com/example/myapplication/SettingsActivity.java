@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.SeekBar;
@@ -11,11 +13,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 
 public class SettingsActivity extends AppCompatActivity {
+    private final static String SHARED_PREFs = "sharedPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
+
+
         FloatingActionButton fab = findViewById(R.id.CloseButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -24,13 +29,13 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
         SeekBar sensitivitySet = findViewById(R.id.seekBar);
-        sensitivitySet.setProgress(50);
+        sensitivitySet.setProgress(loadCalibration());
 
         sensitivitySet.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                // Handle File IO file = "settings.txt"
-
+                // Preference
+                saveCalibration(progress);
             }
 
             @Override
@@ -46,10 +51,18 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-    public static class SettingsFragment extends PreferenceFragmentCompat {
-        @Override
-        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.root_preferences, rootKey);
-        }
+    public void saveCalibration(int progress){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFs,MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putInt("Calibration",  progress);
+        editor.apply();
+
     }
+
+    public int loadCalibration(){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFs,MODE_PRIVATE);
+        return sharedPreferences.getInt("Calibration", 50);
+    }
+
 }
