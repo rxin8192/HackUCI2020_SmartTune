@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private int curr_increment = 0;
     private AudioManager audio;
     private double sensitivity = 1.0;
+    private double initial_noise;
 
 
     // Thread loops
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 last_volume = recordedVolume;
                 volumes.poppush(last_volume);
                 System.out.println("Recorded Volume: " + recordedVolume);
-                System.out.println("Average last " + SAMPLE_SIZE + ": " + volumes.getAverage());
+                System.out.println("Average last " + SAMPLE_SIZE + ": " + volumes.getMedian());
 
                 try {
                     Thread.sleep(1000-(int)(startTime-System.currentTimeMillis()));
@@ -149,24 +150,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    class test implements Runnable{
-//        @Override
-//        public void run(){
-//            while(true) {
-//                // listen here
-//                try {
-//                    Thread.sleep(1500);
-//                } catch(InterruptedException e) {
-//                    System.out.println("got interrupted!");
-//                }
-//                System.out.println("Hello");
-//                if(threadStop){
-//                    return;
-//                }
-//            }
-//        }
-//    };
-
     private void setVolume(double median){
 
     }
@@ -185,9 +168,6 @@ public class MainActivity extends AppCompatActivity {
         (new Thread(pollThread)).start();
 
 
-//        threadStop = false;
-//        test t = new test();
-//        new Thread(t).start();
     }
 
 
