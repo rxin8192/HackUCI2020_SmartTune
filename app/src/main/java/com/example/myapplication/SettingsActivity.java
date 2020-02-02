@@ -66,15 +66,23 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         Switch inverse = findViewById(R.id.Inverse);
+        SharedPreferences sp = getSharedPreferences(SHARED_PREFs, MODE_PRIVATE);
+        inverse.setChecked( sp.getBoolean("Inverse", false));
+
         inverse.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences sp = getSharedPreferences(SHARED_PREFs, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
                 if (isChecked) {
-                    SharedPreferences sp = getSharedPreferences(SHARED_PREFs, MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sp.edit();
-                    editor.putBoolean("Inverse", isChecked);
+                    editor.putBoolean("Inverse", true);
                     editor.apply();
                 }
+                else{
+                    editor.putBoolean("Inverse", false);
+                    editor.apply();
+                }
+
             }
         });
 

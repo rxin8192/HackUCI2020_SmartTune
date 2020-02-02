@@ -29,7 +29,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
-    public final static String SHARED_PREFs = "sharedPrefs";
+    private final static String SHARED_PREFs = "sharedPrefs";
 
     // Constants
     private static final int SAMPLE_SIZE = 10;
