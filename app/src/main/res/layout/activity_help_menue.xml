@@ -15,5 +15,10 @@
         app:backgroundTint="#0F2DDA"
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
