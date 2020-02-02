@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private AudioManager audio;
     private double sensitivity = 1.0;
     private double initial_noise;
+    private boolean volume_adjusted = false;
 
 
 
@@ -86,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
                     recordedVolume = 5;
                 last_volume = recordedVolume;
                 volumes.poppush(last_volume);
-                setVolume(volumes.getMedian());
+                if(!volume_adjusted)
+                    setVolume(volumes.getMedian());
                 System.out.println("Recorded Volume: " + recordedVolume);
                 System.out.println("Average last " + SAMPLE_SIZE + ": " + volumes.getMedian());
                 System.out.println("Current Volume: " + (default_vol+curr_increment)  );
@@ -180,14 +182,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch(keyCode){
+        switch(keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
                 audio.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
                 default_vol = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
+                if (!volume_adjusted)
+                {
+                    Thread adjust = new Thread(lockVolume);
+                    adjust.start();
+                }
                 return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
                 audio.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
                 default_vol = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
+                if (!volume_adjusted)
+                {
+                    Thread adjust = new Thread(lockVolume);
+                    adjust.start();
+                }
                 return true;
             default:
                 return super.onKeyDown(keyCode, event);
@@ -296,5 +308,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private Runnable lockVolume = new Runnable(){
+        public void run(){
+            volume_adjusted = true;
+            try {
+                Thread.sleep(2000);
+            }
+            catch(InterruptedException e)
+            {
+                System.out.println("interrupted");
+            }
+            volume_adjusted = false;
+        }
+    };
 }
 
