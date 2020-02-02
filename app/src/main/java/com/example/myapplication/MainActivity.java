@@ -249,14 +249,14 @@ public class MainActivity extends AppCompatActivity {
         //sensitivity 0-100. 0.25 - 1.75. sense*1.5/100
 
         //Amount each of increase per each change. And Range.
-        int diff = (int)((median - initial_noise));
+        int diff = (int)(((sensitivity)/100 + 0.5)*(median - initial_noise));
         int inc_by = (diff/12);
 
 //        if(speakerMode){
 //            inc_by = -Math.abs(inc_by);
 //        }
         if (speakerMode)
-            inc_by = 3*Math.abs(inc_by);
+            inc_by = -3*inc_by;
 
         // Handle min max range
         int newVolume = default_vol+inc_by > 0 ? default_vol+inc_by : 1;
