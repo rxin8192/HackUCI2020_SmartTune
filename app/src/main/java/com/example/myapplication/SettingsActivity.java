@@ -2,7 +2,6 @@ package com.example.myapplication;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
@@ -16,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SettingsActivity extends AppCompatActivity {
     private final static String SHARED_PREFs = "sharedPrefs";
-    private final static int DEFAULT_SENSITIVITY = 50, DEFAULT_BASE = 0, DEFAULT_MAX = 100;
+    public final static int DEFAULT_SENSITIVITY = 50, DEFAULT_BASE=0, DEFAULT_MAX=100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +41,7 @@ public class SettingsActivity extends AppCompatActivity {
                 SharedPreferences sp = getSharedPreferences(SHARED_PREFs, MODE_PRIVATE);
                 SharedPreferences.Editor editor = sp.edit();
                 int newSensitivity = 100 - maxValue;
-                editor.putInt("Calibration", newSensitivity);
+                editor.putInt("Calibration",  newSensitivity);
                 editor.apply();
 
                 Toast.makeText(getApplicationContext(), "Sensitivity set to " + newSensitivity, Toast.LENGTH_SHORT).show();
@@ -52,6 +51,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Min Max settings
         RangeSeekBar<Integer> seekBar = findViewById(R.id.VolumeRange);
+        seekBar.setSelectedMinValue(sharedPreferences.getInt("Base", DEFAULT_BASE));
+        seekBar.setSelectedMaxValue(sharedPreferences.getInt("Max", DEFAULT_MAX));
         seekBar.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
             @Override
             public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
@@ -77,15 +78,13 @@ public class SettingsActivity extends AppCompatActivity {
                 if (isChecked) {
                     editor.putBoolean("Inverse", true);
                     editor.apply();
-                }
-                else{
+                } else {
                     editor.putBoolean("Inverse", false);
                     editor.apply();
                 }
 
             }
         });
-
     }
 
 }
