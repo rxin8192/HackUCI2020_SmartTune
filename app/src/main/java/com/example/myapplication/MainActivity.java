@@ -268,8 +268,15 @@ public class MainActivity extends AppCompatActivity {
             //Write here your code to run in the background thread
             //calculate here whatever you like
             DecimalFormat df = new DecimalFormat("0.00");
-            ambientString = "Ambient Noise: " + df.format(ambient_noise);
-            volumeString =  "Current Volume: " + Integer.toString(default_vol+curr_increment);
+            if(recording) {
+                ambientString = "Ambient Noise: " + df.format(ambient_noise);
+                volumeString = "Current Volume: " + Integer.toString(default_vol + curr_increment);
+            }
+            else
+            {
+                ambientString = "";
+                volumeString = "";
+            }
 
             return null;
         }

@@ -40,9 +40,9 @@ public class HelpMenu extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 // Handle File IO file = "settings.txt"
-                String directory = /Users/jason/AndroidStudioProjects/HackUCI2020_VolumeSense
-                String fileName = "sample.txt";
-                String absolutePath = directory + File.separator + fileName;
+//                String directory = /Users/jason/AndroidStudioProjects/HackUCI2020_VolumeSense
+//                String fileName = "sample.txt";
+//                String absolutePath = directory + File.separator + fileName;
 
             }
 
