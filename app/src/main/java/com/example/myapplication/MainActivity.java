@@ -240,6 +240,12 @@ public class MainActivity extends AppCompatActivity {
         //Amount each of increase per each change. And Range.
         int diff = (int)((median - initial_noise));
         curr_increment = (diff/20);
+        if(sensitivity < 0){
+            curr_increment = -Math.abs(curr_increment);
+        }
+        else{
+            curr_increment = Math.abs(curr_increment);
+        }
         if(inc_before != curr_increment)
         {
             audio.setStreamVolume(AudioManager.STREAM_MUSIC, default_vol+curr_increment > 0? default_vol+curr_increment : 1, 0);
