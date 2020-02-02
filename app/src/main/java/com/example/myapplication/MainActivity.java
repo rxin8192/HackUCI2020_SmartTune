@@ -1,17 +1,12 @@
 package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.os.SystemClock;
-import android.provider.MediaStore;
-import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
-import android.content.DialogInterface;
-import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -19,14 +14,11 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import android.os.Bundle;
+
 import android.media.MediaRecorder;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.concurrent.TimeUnit;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -88,9 +80,11 @@ public class MainActivity extends AppCompatActivity {
         ImageButton buttonrequest = findViewById(R.id.MicButton);
         recording = false;
 
-
+        //timer
         Chronometer timer = findViewById(R.id.timer);
         timer.setVisibility(View.GONE);
+
+        //Mic Button Code
         buttonrequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,6 +109,16 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
+            }
+        });
+
+        //Help Menu code.
+        ImageButton help = findViewById(R.id.HelpButton);
+        help.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent i = new Intent(getApplicationContext(), HelpMenu.class);
+                startActivity(i);
             }
         });
     }
