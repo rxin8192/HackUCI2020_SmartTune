@@ -3,7 +3,9 @@ package com.example.myapplication;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -64,8 +66,25 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        Switch inverse = findViewById(R.id.Inverse);
+        SharedPreferences sp = getSharedPreferences(SHARED_PREFs, MODE_PRIVATE);
+        inverse.setChecked( sp.getBoolean("Inverse", false));
+
+        inverse.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences sp = getSharedPreferences(SHARED_PREFs, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                if (isChecked) {
+                    editor.putBoolean("Inverse", true);
+                    editor.apply();
+                } else {
+                    editor.putBoolean("Inverse", false);
+                    editor.apply();
+                }
+
+            }
+        });
     }
-
-
 
 }

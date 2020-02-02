@@ -29,7 +29,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
-    public final static String SHARED_PREFs = "sharedPrefs";
+    private final static String SHARED_PREFs = "sharedPrefs";
 
     // Constants
     private static final int SAMPLE_SIZE = 10;
@@ -46,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private double initial_noise;
     private boolean volume_adjusted = false;
     private double minVolume=0.0, maxVolume=1.0;
-
+    private int vol_before = 0;
+    private int inc_before = 0;
 
     @Override
     protected void onDestroy() {
@@ -185,12 +186,16 @@ public class MainActivity extends AppCompatActivity {
                         timer.stop();
                         timer.setVisibility(View.GONE);
                         stopRecording();
+                        Toast.makeText(getApplicationContext(), "Stopped Recording", Toast.LENGTH_SHORT).show();
+
                     }
                     else {
                         timer.setBase(SystemClock.elapsedRealtime());
                         timer.setVisibility(View.VISIBLE);
                         timer.start();
                         startMicrophone();
+                        Toast.makeText(getApplicationContext(), "Started Recording", Toast.LENGTH_SHORT).show();
+
                     }
 
                 }
@@ -258,7 +263,18 @@ public class MainActivity extends AppCompatActivity {
         int calculated_volume = (int) (Math.round(weightedVolume*maxDeviceVolume));
         curr_increment = calculated_volume-default_vol;
 
-
+        if(inc_before != curr_increment)
+        {
+            audio.setStreamVolume(AudioManager.STREAM_MUSIC, default_vol+curr_increment > 0? default_vol+curr_increment : 1, 0);
+        }
+        else if((vol_before != audio.getStreamVolume(AudioManager.STREAM_MUSIC)))
+        {
+            Thread serviceAdjust = new Thread(lockVolume);
+            serviceAdjust.run();
+        }
+        System.out.println("got to boolean in mainactivity: " + vol_before + "  " + audio.getStreamVolume(AudioManager.STREAM_MUSIC));
+        inc_before = curr_increment;
+        vol_before = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
         audio.setStreamVolume(AudioManager.STREAM_MUSIC, calculated_volume, 0);
     }
 
