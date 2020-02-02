@@ -1,29 +1,21 @@
 package com.example.myapplication;
 
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.view.View;
 import android.widget.SeekBar;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class HelpMenu extends AppCompatActivity {
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceFragmentCompat;
+
+public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_help_menue);
-
+        setContentView(R.layout.settings_activity);
         FloatingActionButton fab = findViewById(R.id.CloseButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,18 +23,13 @@ public class HelpMenu extends AppCompatActivity {
                 finish();
             }
         });
-
-
-        // Sensitivity Logic
         SeekBar sensitivitySet = findViewById(R.id.seekBar);
         sensitivitySet.setProgress(50);
+
         sensitivitySet.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 // Handle File IO file = "settings.txt"
-                String directory = /Users/jason/AndroidStudioProjects/HackUCI2020_VolumeSense
-                String fileName = "sample.txt";
-                String absolutePath = directory + File.separator + fileName;
 
             }
 
@@ -56,6 +43,13 @@ public class HelpMenu extends AppCompatActivity {
 
             }
         });
+
     }
 
+    public static class SettingsFragment extends PreferenceFragmentCompat {
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            setPreferencesFromResource(R.xml.root_preferences, rootKey);
+        }
+    }
 }
