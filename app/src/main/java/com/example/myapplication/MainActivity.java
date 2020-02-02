@@ -13,16 +13,19 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
-
+import android.os.AsyncTask;
 import android.media.MediaRecorder;
-
+import android.os.Handler;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -36,8 +39,10 @@ public class MainActivity extends AppCompatActivity {
     private boolean recording;  // True if the the microphone is recording
     private int default_vol;
     private int curr_increment = 0;
+    private double ambient_noise = 0;
     private AudioManager audio;
     private double sensitivity = 1.0;
+
 
 
     // Thread loops
@@ -60,12 +65,10 @@ public class MainActivity extends AppCompatActivity {
                 last_volume = sMeter.getAmplitude();
                 volumes.enqueue(last_volume);
             }
-
             // Event Loop
             while (recording) {
                 long startTime = System.currentTimeMillis();
                 double recordedVolume = sMeter.getAmplitude();
-
                 if(recordedVolume > 1.5*last_volume)
                     recordedVolume = 1.5*last_volume;
                 else if(recordedVolume < 10)
@@ -74,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 volumes.poppush(last_volume);
                 System.out.println("Recorded Volume: " + recordedVolume);
                 System.out.println("Average last " + SAMPLE_SIZE + ": " + volumes.getAverage());
+
 
                 try {
                     Thread.sleep(1000-(int)(startTime-System.currentTimeMillis()));
@@ -92,6 +96,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //ambient noise and current volume
+        av = (TextView)findViewById(R.id.currentNoise);
+        cv = (TextView)findViewById(R.id.currentVolume);
+        final Handler handler = new Handler();
+        timer = new Timer();
+        task = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    public void run() {
+                        changeStrings mAsync = new changeStrings();
+                        mAsync.execute();
+                    }
+                });
+            }
+        };
+        timer.schedule(task, 0, 1000); //Every 1 second
+
+
         ImageButton buttonrequest = findViewById(R.id.MicButton);
         recording = false;
         audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -225,6 +249,49 @@ public class MainActivity extends AppCompatActivity {
     public void increaseVolume(View view){
         audio.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
     }
+
+//    private void updateAmbient(double average)
+//    {
+//
+//    }
+
+    private TextView cv,av;
+    private String ambientString,volumeString;
+    changeStrings mAsync = null;
+    Timer timer = null;
+    TimerTask task = null;
+    private class changeStrings extends AsyncTask<String, Void, String> {
+
+        public changeStrings(){
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            //Background operation in a separate thread
+            //Write here your code to run in the background thread
+            //calculate here whatever you like
+            ambientString = "Ambient Noise: " + Double.toString(ambient_noise);
+            volumeString =  "Current Volume: " + Integer.toString(default_vol+curr_increment);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            //Called on Main UI Thread. Executed after the Background operation, allows you to have access to the UI
+            av.setText(ambientString);
+            cv.setText(volumeString);
+
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            //Called on Main UI Thread. Executed before the Background operation, allows you to have access to the UI
+        }
+    }
+
 
 }
 

@@ -36,7 +36,11 @@
         app:layout_constraintTop_toBottomOf="@+id/MicButton" />
 
 
-    <include layout="@layout/content_help_menue" />
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_help_menue"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/HelpButton"
@@ -51,6 +55,30 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_menu_help" />
+
+    <TextView
+        android:id="@+id/currentNoise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ambient Noise: "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.051"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.692" />
+
+    <TextView
+        android:id="@+id/currentVolume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current Volume: "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.052"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/currentNoise"
+        app:layout_constraintVertical_bias="0.125" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
