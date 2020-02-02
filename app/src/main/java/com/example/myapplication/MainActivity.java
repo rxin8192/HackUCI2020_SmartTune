@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private double minVolume=0.0, maxVolume=1.0;
     private int vol_before = 0;
     private int inc_before = 0;
+    private boolean speakerMode = false;
 
     @Override
     protected void onDestroy() {
@@ -99,14 +100,9 @@ public class MainActivity extends AppCompatActivity {
                 double recordedVolume = sMeter.getAmplitude(); //GetAmplitude returns a range from ~ 20~80
                 //This is sensitivity - eliminates outlierss. Inertia. Low Sens = high Inertia, High = low.
 
-                if(sharedPreferences.getBoolean("Inverse", false)){
-                    sensitivity = -Math.abs(sensitivity);
-                }
-                else{
-                    sensitivity = Math.abs(sensitivity);
-                    if(recordedVolume > (((sensitivity*1.3)/100)+1)*last_volume) //How much bigger the next data point is from the last one. 1.3 - 2.3
-                        recordedVolume = (((sensitivity*1.3)/100)+1)*last_volume; //Outlier Avoider.
-                }
+                speakerMode = sharedPreferences.getBoolean("Inverse", false);
+                if(recordedVolume > (((sensitivity*1.3)/100)+1)*last_volume) //How much bigger the next data point is from the last one. 1.3 - 2.3
+                    recordedVolume = (((sensitivity*1.3)/100)+1)*last_volume; //Outlier Avoider.
 
                 if(recordedVolume < 5)
                     recordedVolume = 5;
@@ -254,8 +250,11 @@ public class MainActivity extends AppCompatActivity {
 
         //Amount each of increase per each change. And Range.
         int diff = (int)((median - initial_noise));
-        curr_increment = (diff/20);
-        int inc_by = (diff/20);
+        int inc_by = (diff/12);
+
+        if(speakerMode){
+            inc_by = -Math.abs(inc_by);
+        }
 
         // Handle min max range
         int newVolume = default_vol+inc_by > 0 ? default_vol+inc_by : 1;

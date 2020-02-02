@@ -34,7 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
         // Sensitivity Settings
         RangeSeekBar<Integer> sensitivitySet = findViewById(R.id.seekBar);
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFs, MODE_PRIVATE);
-        sensitivitySet.setSelectedMaxValue(sharedPreferences.getInt("Calibration", DEFAULT_SENSITIVITY));
+        sensitivitySet.setSelectedMaxValue(100 - sharedPreferences.getInt("Calibration", DEFAULT_SENSITIVITY));
         sensitivitySet.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener<Integer>() {
             @Override
             public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue, Integer maxValue) {
