@@ -35,6 +35,7 @@ public class HelpMenu extends AppCompatActivity {
 
         // Sensitivity Logic
         SeekBar sensitivitySet = findViewById(R.id.seekBar);
+        sensitivitySet.setProgress(50);
         sensitivitySet.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
