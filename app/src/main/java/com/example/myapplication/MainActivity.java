@@ -23,13 +23,13 @@ import android.os.AsyncTask;
 import android.media.MediaRecorder;
 import android.os.Handler;
 
+import android.content.SharedPreferences;
 import java.text.DecimalFormat;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
+    public final static String SHARED_PREFs = "sharedPrefs";
 
     // Constants
     private static final int SAMPLE_SIZE = 10;
@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private double sensitivity = 1.0;
     private double initial_noise;
     private boolean volume_adjusted = false;
+    private int Calibration;
 
 
 
@@ -90,8 +91,9 @@ public class MainActivity extends AppCompatActivity {
                 if(!volume_adjusted)
                     setVolume(volumes.getMedian());
                 System.out.println("Recorded Volume: " + recordedVolume);
-                System.out.println("Average last " + SAMPLE_SIZE + ": " + volumes.getMedian());
-                System.out.println("Current Volume: " + (default_vol+curr_increment)  );
+//                System.out.println("Average last " + SAMPLE_SIZE + ": " + volumes.getMedian());
+//                System.out.println("Current Volume: " + (default_vol+curr_increment)  );
+
                 ambient_noise = volumes.getMedian();
 
 
@@ -112,6 +114,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Retrieves the calibration value from the settings.
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFs,MODE_PRIVATE);
+        Calibration = sharedPreferences.getInt("Calibration", 50);
 
         //ambient noise and current volume
         av = (TextView)findViewById(R.id.currentNoise);
