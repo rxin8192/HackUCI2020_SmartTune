@@ -83,9 +83,12 @@ public class MainActivity extends AppCompatActivity {
             }
             initial_noise = volumes.getMedian();
 
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFs,MODE_PRIVATE);
 
             // Event Loop
             while (recording) {
+                sensitivity = sharedPreferences.getInt("Calibration", 50);
+
                 long startTime = System.currentTimeMillis();
                 double recordedVolume = sMeter.getAmplitude(); //GetAmplitude returns a range from ~ 20~80
                 //This is sensitivity - eliminates outlierss. Inertia. Low Sens = high Inertia, High = low.
@@ -124,8 +127,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Retrieves the calibration value from the settings.
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFs,MODE_PRIVATE);
-        sensitivity = sharedPreferences.getInt("Calibration", 50);
 
         //ambient noise and current volume
         av = (TextView)findViewById(R.id.currentNoise);
