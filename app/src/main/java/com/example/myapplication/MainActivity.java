@@ -265,17 +265,18 @@ public class MainActivity extends AppCompatActivity {
 
         if(inc_before != curr_increment)
         {
-            audio.setStreamVolume(AudioManager.STREAM_MUSIC, default_vol+curr_increment > 0? default_vol+curr_increment : 1, 0);
+            audio.setStreamVolume(AudioManager.STREAM_MUSIC, calculated_volume > 0? default_vol+curr_increment : 1, 0);
         }
         else if((vol_before != audio.getStreamVolume(AudioManager.STREAM_MUSIC)))
         {
+            default_vol = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
             Thread serviceAdjust = new Thread(lockVolume);
             serviceAdjust.run();
         }
         System.out.println("got to boolean in mainactivity: " + vol_before + "  " + audio.getStreamVolume(AudioManager.STREAM_MUSIC));
         inc_before = curr_increment;
         vol_before = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
-        audio.setStreamVolume(AudioManager.STREAM_MUSIC, calculated_volume, 0);
+        //audio.setStreamVolume(AudioManager.STREAM_MUSIC, calculated_volume, 0);
     }
 
     private void startMicrophone() {
