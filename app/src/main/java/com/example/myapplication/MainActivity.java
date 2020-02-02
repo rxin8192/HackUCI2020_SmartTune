@@ -29,7 +29,6 @@ import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
 public class MainActivity extends AppCompatActivity {
 
     // Constants
@@ -174,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
         help.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent i = new Intent(getApplicationContext(), HelpMenu.class);
+                Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
                 startActivity(i);
             }
         });
