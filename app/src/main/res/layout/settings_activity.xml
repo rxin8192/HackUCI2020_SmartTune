@@ -35,7 +35,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_goneMarginLeft="5dp"
         app:singleThumb="true"
-        app:absoluteMinValue="0"
+        app:absoluteMinValue="1"
         app:absoluteMaxValue="100"
         />
 

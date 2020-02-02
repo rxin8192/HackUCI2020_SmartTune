@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private double sensitivity = 1.0;
     private double initial_noise;
     private boolean volume_adjusted = false;
+    private double minVolume=0.0, maxVolume=1.0;
 
 
     @Override
@@ -88,7 +89,9 @@ public class MainActivity extends AppCompatActivity {
 
             // Event Loop
             while (recording) {
-                sensitivity = sharedPreferences.getInt("Calibration", 50);
+                sensitivity = sharedPreferences.getInt("Calibration", SettingsActivity.DEFAULT_SENSITIVITY);
+                minVolume = sharedPreferences.getInt("Base", SettingsActivity.DEFAULT_BASE)/100.0;
+                maxVolume = sharedPreferences.getInt("Max", SettingsActivity.DEFAULT_MAX)/100.0;
 
 
                 long startTime = System.currentTimeMillis();
@@ -230,14 +233,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Calculates the weighted value given a range as defined by a sigmoid function.
+     * @param min The lower-bound on the range
+     * @param max The upper-bound on the range
+     * @param x The proportion of the max volume which the volume will be
+     * @return The sigmoid weighted value.
+     */
+    private double sigmoid(double min, double max, double x) {
+        return min + ((double) max-min)/(1 + Math.pow(Math.E, -10*(x-.5)));
+    }
+
     private void setVolume(double median){
         //sensitivity 0-100. 0.25 - 1.75. sense*1.5/100
 
         //Amount each of increase per each change. And Range.
         int diff = (int)((median - initial_noise));
-        curr_increment = (diff/20);
+        int inc_by = (diff/20);
 
-        audio.setStreamVolume(AudioManager.STREAM_MUSIC, default_vol+curr_increment > 0 ? default_vol+curr_increment : 1, 0);
+        // Handle min max range
+        int newVolume = default_vol+inc_by > 0 ? default_vol+inc_by : 1;
+        int maxDeviceVolume = audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        double weightedVolume = sigmoid(minVolume, this.maxVolume, ((double) newVolume)/maxDeviceVolume);
+        int calculated_volume = (int) (Math.round(weightedVolume*maxDeviceVolume));
+        curr_increment = calculated_volume-default_vol;
+
+
+        audio.setStreamVolume(AudioManager.STREAM_MUSIC, calculated_volume, 0);
     }
 
     private void startMicrophone() {
