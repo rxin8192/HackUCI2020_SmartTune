@@ -25,7 +25,7 @@ public class SettingsActivity extends AppCompatActivity {
                 finish();
             }
         });
-        SeekBar sensitivitySet = findViewById(R.id.seekBar);
+        SeekBar sensitivitySet = findViewById(R.id.sensitivityBar);
         sensitivitySet.setProgress(loadCalibration());
 
         sensitivitySet.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

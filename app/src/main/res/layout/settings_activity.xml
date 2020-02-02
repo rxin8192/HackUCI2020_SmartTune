@@ -6,18 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
 
-    <TextView
-        android:id="@+id/sensitivityHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="5dp"
-        android:text="High"
-        android:textColor="#008577"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar"
-        app:layout_constraintEnd_toEndOf="parent" />
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/CloseButton"
@@ -32,8 +21,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
+
     <SeekBar
-        android:id="@+id/seekBar"
+        android:id="@+id/sensitivityBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -42,53 +32,27 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="440dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="250dp"
+        android:tint="#008577"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/SensitivityHeader1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="5dp"
-        android:text="Low"
-        android:textColor="#008577"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar"
-        app:layout_constraintEnd_toStartOf="@+id/seekBar"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="388dp"
-        android:layout_height="116dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="32dp"
-        android:text="About: \nSmart Tune is a smart volume control app that adjusts your music volume based on how loud your enviroment is. The app works in the background and will only stop adjustments if the app is closed or the stop recording button is hit"
-        android:textColor="#008577"
-        app:layout_constraintBottom_toTopOf="@+id/CloseButton"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="251dp"
         android:layout_height="31dp"
-        android:layout_marginStart="57dp"
-        android:layout_marginLeft="57dp"
-        android:layout_marginEnd="57dp"
-        android:layout_marginRight="57dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginRight="80dp"
         android:text="Sound Change Calibration"
         android:textColor="#008577"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar"
-        app:layout_constraintEnd_toStartOf="@+id/sensitivityHeader"
-        app:layout_constraintHorizontal_bias="0.472"
-        app:layout_constraintStart_toEndOf="@+id/SensitivityHeader1" />
+        app:layout_constraintBottom_toTopOf="@+id/sensitivityBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView4"
@@ -105,7 +69,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.84"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+        app:layout_constraintTop_toBottomOf="@+id/sensitivityBar" />
+
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="388dp"
+        android:layout_height="116dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="32dp"
+        android:text="About: \nVolume sense is a smart volume control that adjusts your music volume based on how loud your enviroment is. The app works in the background and will only stop adjustments if the app is closed or the stop recording button is hit"
+        android:textColor="#008577"
+        app:layout_constraintBottom_toTopOf="@+id/CloseButton"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
