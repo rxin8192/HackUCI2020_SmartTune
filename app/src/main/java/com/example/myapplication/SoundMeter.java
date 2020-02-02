@@ -31,7 +31,6 @@ public class SoundMeter {
     }
 
     public void stop() {
-        System.out.println("LMAO");
         if (recorder != null) {
             recorder.stop();
             recorder.release();

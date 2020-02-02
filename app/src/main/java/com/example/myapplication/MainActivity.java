@@ -47,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
     private double initial_noise;
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
     // Thread loops
     private Runnable micListener = new Runnable() {
@@ -208,6 +212,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startRecording() {
+        startService(new Intent(this, MyService.class));
         sMeter = new SoundMeter();
         sMeter.start();
 
@@ -219,8 +224,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void stopRecording() {
+        stopService(new Intent(this, MyService.class));
         recording = false;
         sMeter.stop();
+
         Log.d("myTag", "Stop");
 //        threadStop = true;
     }
