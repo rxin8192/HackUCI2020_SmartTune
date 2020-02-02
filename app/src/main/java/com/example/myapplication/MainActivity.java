@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private double ambient_noise = 0;
     private AudioManager audio;
     private double sensitivity = 1.0;
+    private double initial_noise;
 
 
 
@@ -63,24 +64,35 @@ public class MainActivity extends AppCompatActivity {
             ArrayQueue volumes = new ArrayQueue(SAMPLE_SIZE);
             for(int i = 0; i < SAMPLE_SIZE; i++) {
                 last_volume = sMeter.getAmplitude();
+                try {
+                    Thread.sleep(300);
+                }
+                catch (InterruptedException e){
+                    e.printStackTrace();
+                }
                 volumes.enqueue(last_volume);
             }
+            initial_noise = volumes.getMedian();
+
+
             // Event Loop
             while (recording) {
                 long startTime = System.currentTimeMillis();
                 double recordedVolume = sMeter.getAmplitude();
                 if(recordedVolume > 1.5*last_volume)
                     recordedVolume = 1.5*last_volume;
-                else if(recordedVolume < 10)
-                    recordedVolume = 10;
+                else if(recordedVolume < 5)
+                    recordedVolume = 5;
                 last_volume = recordedVolume;
                 volumes.poppush(last_volume);
+                setVolume(volumes.getMedian());
                 System.out.println("Recorded Volume: " + recordedVolume);
-                System.out.println("Average last " + SAMPLE_SIZE + ": " + volumes.getAverage());
+                System.out.println("Average last " + SAMPLE_SIZE + ": " + volumes.getMedian());
+                System.out.println("Current Volume: " + (default_vol+curr_increment)  );
 
 
                 try {
-                    Thread.sleep(1000-(int)(startTime-System.currentTimeMillis()));
+                    Thread.sleep(500-(int)(startTime-System.currentTimeMillis()));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -180,26 +192,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    class test implements Runnable{
-//        @Override
-//        public void run(){
-//            while(true) {
-//                // listen here
-//                try {
-//                    Thread.sleep(1500);
-//                } catch(InterruptedException e) {
-//                    System.out.println("got interrupted!");
-//                }
-//                System.out.println("Hello");
-//                if(threadStop){
-//                    return;
-//                }
-//            }
-//        }
-//    };
-
     private void setVolume(double median){
-
+        int diff = (int)(sensitivity*(median - initial_noise));
+        curr_increment = (diff/15);
+        audio.setStreamVolume(AudioManager.STREAM_MUSIC, default_vol+curr_increment > 0 ? default_vol+curr_increment : 1, 0);
     }
 
     private void startMicrophone() {
@@ -216,9 +212,6 @@ public class MainActivity extends AppCompatActivity {
         (new Thread(pollThread)).start();
 
 
-//        threadStop = false;
-//        test t = new test();
-//        new Thread(t).start();
     }
 
 

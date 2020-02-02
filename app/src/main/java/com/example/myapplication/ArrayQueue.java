@@ -55,6 +55,11 @@ public class ArrayQueue {
         }
     }
 
+    public void clear(){
+        head = 0;
+        tail = 0;
+    }
+
     /**
      * Enqueues value to queue.
      * Note: dequeue from a full queue before enqueing

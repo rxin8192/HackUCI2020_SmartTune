@@ -8,8 +8,8 @@
 
     <ImageButton
         android:id="@+id/MicButton"
-        android:layout_width="218dp"
-        android:layout_height="107dp"
+        android:layout_width="173dp"
+        android:layout_height="51dp"
         android:layout_marginStart="147dp"
         android:layout_marginLeft="147dp"
         android:layout_marginEnd="148dp"
@@ -35,12 +35,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/MicButton" />
 
-
-    <include
-        android:id="@+id/include"
-        layout="@layout/content_help_menue"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/HelpButton"
