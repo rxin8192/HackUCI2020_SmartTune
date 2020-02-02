@@ -23,14 +23,13 @@ import android.os.AsyncTask;
 import android.media.MediaRecorder;
 import android.os.Handler;
 
+import android.content.SharedPreferences;
 import java.text.DecimalFormat;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
 public class MainActivity extends AppCompatActivity {
+    public final static String SHARED_PREFs = "sharedPrefs";
 
     // Constants
     private static final int SAMPLE_SIZE = 10;
@@ -45,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private AudioManager audio;
     private double sensitivity = 1.0;
     private double initial_noise;
+    private boolean volume_adjusted = false;
+    private int Calibration;
 
 
     @Override
@@ -91,10 +92,12 @@ public class MainActivity extends AppCompatActivity {
                     recordedVolume = 5;
                 last_volume = recordedVolume;
                 volumes.poppush(last_volume);
-                setVolume(volumes.getMedian());
+                if(!volume_adjusted)
+                    setVolume(volumes.getMedian());
                 System.out.println("Recorded Volume: " + recordedVolume);
-                System.out.println("Average last " + SAMPLE_SIZE + ": " + volumes.getMedian());
-                System.out.println("Current Volume: " + (default_vol+curr_increment)  );
+//                System.out.println("Average last " + SAMPLE_SIZE + ": " + volumes.getMedian());
+//                System.out.println("Current Volume: " + (default_vol+curr_increment)  );
+
                 ambient_noise = volumes.getMedian();
 
 
@@ -115,6 +118,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Retrieves the calibration value from the settings.
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFs,MODE_PRIVATE);
+        Calibration = sharedPreferences.getInt("Calibration", 50);
 
         //ambient noise and current volume
         av = (TextView)findViewById(R.id.currentNoise);
@@ -178,21 +185,31 @@ public class MainActivity extends AppCompatActivity {
         help.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent i = new Intent(getApplicationContext(), HelpMenu.class);
+                Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
                 startActivity(i);
             }
         });
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch(keyCode){
+        switch(keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
                 audio.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
                 default_vol = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
+                if (!volume_adjusted)
+                {
+                    Thread adjust = new Thread(lockVolume);
+                    adjust.start();
+                }
                 return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
                 audio.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
                 default_vol = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
+                if (!volume_adjusted)
+                {
+                    Thread adjust = new Thread(lockVolume);
+                    adjust.start();
+                }
                 return true;
             default:
                 return super.onKeyDown(keyCode, event);
@@ -275,8 +292,15 @@ public class MainActivity extends AppCompatActivity {
             //Write here your code to run in the background thread
             //calculate here whatever you like
             DecimalFormat df = new DecimalFormat("0.00");
-            ambientString = "Ambient Noise: " + df.format(ambient_noise);
-            volumeString =  "Current Volume: " + Integer.toString(default_vol+curr_increment);
+            if(recording) {
+                ambientString = "Ambient Noise: " + df.format(ambient_noise);
+                volumeString = "Current Volume: " + Integer.toString(default_vol + curr_increment);
+            }
+            else
+            {
+                ambientString = "";
+                volumeString = "";
+            }
 
             return null;
         }
@@ -297,5 +321,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private Runnable lockVolume = new Runnable(){
+        public void run(){
+            volume_adjusted = true;
+            try {
+                Thread.sleep(2000);
+            }
+            catch(InterruptedException e)
+            {
+                System.out.println("interrupted");
+            }
+            volume_adjusted = false;
+        }
+    };
 }
 

@@ -4,21 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#00FFFFFF"
     tools:context=".MainActivity">
 
     <ImageButton
         android:id="@+id/MicButton"
-        android:layout_width="173dp"
-        android:layout_height="51dp"
+        android:layout_width="184dp"
+        android:layout_height="184dp"
         android:layout_marginStart="147dp"
         android:layout_marginLeft="147dp"
         android:layout_marginEnd="148dp"
         android:layout_marginRight="148dp"
-        android:layout_marginBottom="332dp"
+        android:layout_marginBottom="304dp"
+        android:background="#07B19F"
+        android:foreground="@drawable/noice"
+        android:tint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/noice" />
+        app:srcCompat="@android:drawable/ic_btn_speak_now"></ImageButton>
 
     <Chronometer
         android:id="@+id/timer"
@@ -30,6 +34,8 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="183dp"
         android:layout_marginRight="183dp"
+        android:textColor="#008577"
+        android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +51,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        app:backgroundTint="#0F2DDA"
+        app:backgroundTint="#008577"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_menu_help" />
@@ -55,24 +61,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ambient Noise: "
+        android:textColor="#008577"
+        android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.051"
+        app:layout_constraintHorizontal_bias="0.256"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.692" />
+        app:layout_constraintVertical_bias="0.716" />
 
     <TextView
         android:id="@+id/currentVolume"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Current Volume: "
+        android:textColor="#008577"
+        android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.052"
+        app:layout_constraintHorizontal_bias="0.249"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/currentNoise"
-        app:layout_constraintVertical_bias="0.125" />
+        app:layout_constraintVertical_bias="0.097" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

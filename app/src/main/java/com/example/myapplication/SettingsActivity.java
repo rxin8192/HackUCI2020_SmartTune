@@ -1,28 +1,22 @@
 package com.example.myapplication;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.view.View;
 import android.widget.SeekBar;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class HelpMenu extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class SettingsActivity extends AppCompatActivity {
+    private final static String SHARED_PREFs = "sharedPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.settings_activity);
 
-        setContentView(R.layout.activity_help_menue);
 
         FloatingActionButton fab = findViewById(R.id.CloseButton);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -31,19 +25,14 @@ public class HelpMenu extends AppCompatActivity {
                 finish();
             }
         });
-
-
-        // Sensitivity Logic
         SeekBar sensitivitySet = findViewById(R.id.seekBar);
-        sensitivitySet.setProgress(50);
+        sensitivitySet.setProgress(loadCalibration());
+
         sensitivitySet.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                // Handle File IO file = "settings.txt"
-//                String directory = /Users/jason/AndroidStudioProjects/HackUCI2020_VolumeSense
-//                String fileName = "sample.txt";
-//                String absolutePath = directory + File.separator + fileName;
-//
+                // Preference
+                saveCalibration(progress);
             }
 
             @Override
@@ -56,6 +45,21 @@ public class HelpMenu extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    public void saveCalibration(int progress){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFs,MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putInt("Calibration",  progress);
+        editor.apply();
+
+    }
+
+    public int loadCalibration(){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFs,MODE_PRIVATE);
+        return sharedPreferences.getInt("Calibration", 50);
     }
 
 }
