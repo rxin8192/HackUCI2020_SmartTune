@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 catch (InterruptedException e){
                     e.printStackTrace();
                 }
+
                 volumes.enqueue(last_volume);
             }
             initial_noise = volumes.getMedian();

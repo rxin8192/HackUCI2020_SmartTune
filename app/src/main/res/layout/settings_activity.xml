@@ -6,19 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
 
-    <TextView
-        android:id="@+id/sensitivityHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="5dp"
-        android:text="High"
-        android:textColor="#008577"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/CloseButton"
         android:layout_width="wrap_content"
@@ -32,7 +19,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
-    <SeekBar
+
+    <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,26 +28,16 @@
         android:layout_marginLeft="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="440dp"
+        android:layout_marginBottom="432dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/SensitivityHeader1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="5dp"
-        android:text="Low"
-        android:textColor="#008577"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar"
-        app:layout_constraintEnd_toStartOf="@+id/seekBar"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_goneMarginLeft="5dp"
+        app:singleThumb="true"
+        app:absoluteMinValue="0"
+        app:absoluteMaxValue="100"
+        />
 
     <TextView
         android:id="@+id/textView"
@@ -77,18 +55,14 @@
         android:id="@+id/textView3"
         android:layout_width="251dp"
         android:layout_height="31dp"
-        android:layout_marginStart="57dp"
-        android:layout_marginLeft="57dp"
-        android:layout_marginEnd="57dp"
-        android:layout_marginRight="57dp"
         android:layout_marginBottom="15dp"
+        android:gravity="center_horizontal"
         android:text="Sound Change Calibration"
         android:textColor="#008577"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar"
-        app:layout_constraintEnd_toStartOf="@+id/sensitivityHeader"
-        app:layout_constraintHorizontal_bias="0.472"
-        app:layout_constraintStart_toEndOf="@+id/SensitivityHeader1" />
+        app:layout_constraintBottom_toTopOf="@id/seekBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView4"
@@ -106,6 +80,23 @@
         app:layout_constraintHorizontal_bias="0.84"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+
+
+    <!-- Min Max Volume -->
+    <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+        android:id="@+id/VolumeRange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+
+
+        app:layout_constraintStart_toEndOf="@id/textView4"
+        app:layout_constraintTop_toBottomOf="@id/textView4" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
