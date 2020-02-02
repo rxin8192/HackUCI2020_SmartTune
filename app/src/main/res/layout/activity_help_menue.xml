@@ -19,5 +19,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="397dp"
+        android:layout_height="108dp"
+        android:layout_marginBottom="14dp"
+        android:text="About: \nVolume sense is a smart volume control that adjusts your music volume based on how loud your enviroment is. The app works in the background and will only stop adjustments if the app is closed or the stop recording button is hit"
+        app:layout_constraintBottom_toTopOf="@+id/CloseButton"
+        tools:layout_editor_absoluteX="6dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
