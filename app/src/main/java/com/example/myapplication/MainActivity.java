@@ -9,6 +9,7 @@ import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.content.DialogInterface;
 import android.widget.Button;
@@ -33,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
     private int AUDIO_PERMISSION_CODE = 1;
     private SoundMeter sMeter;
     private boolean recording;  // True if the the microphone is recording
+    private int default_vol;
+    private int curr_increment = 0;
+    private AudioManager audio;
+    private double sensitivity = 1.0;
+
 
     // Thread loops
     private Runnable micListener = new Runnable() {
@@ -59,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
                 double recordedVolume = sMeter.getAmplitude();
                 if(recordedVolume > 1.5*last_volume)
                     recordedVolume = 1.5*last_volume;
-                else if(recordedVolume < 20)
-                    recordedVolume = 20;
+                else if(recordedVolume < 10)
+                    recordedVolume = 10;
                 last_volume = recordedVolume;
                 total_volume -= volumes.remove();
                 volumes.add(last_volume);
@@ -87,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ImageButton buttonrequest = findViewById(R.id.MicButton);
         recording = false;
+        audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        default_vol = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
+
 
 
         Chronometer timer = findViewById(R.id.timer);
@@ -119,6 +128,21 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch(keyCode){
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                audio.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
+                default_vol = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                audio.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
+                default_vol = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
+                return true;
+            default:
+                return super.onKeyDown(keyCode, event);
+        }
+    }
+
 //    class test implements Runnable{
 //        @Override
 //        public void run(){
@@ -137,9 +161,14 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //    };
 
+    private void setVolume(double median){
+
+    }
+
     private void startMicrophone() {
         recording = true;
         (new Thread(micListener)).start();
+        default_vol = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
     }
 
     private void startRecording() {
@@ -177,12 +206,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void printStreamVolume(View view){
-        AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         System.out.println( audio.getStreamVolume(AudioManager.STREAM_MUSIC));
     }
 
     public void increaseVolume(View view){
-        AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         audio.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
     }
 
